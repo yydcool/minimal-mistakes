@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+
+	<div id="infodiv">
+	Log format: timestamp, socketID, rate, queue_size<br>
+	<textarea id="data" rows="20" cols="50">[
+	
+]
+</textarea> 
+</div>
+
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	<script>
+		function renderButton(){
+			var s = document.getElementById("data").value;
+			//console.log(s.endsWith(",\n"))
+			var raw=JSON.parse(s);
+			var idtable = {};
+			var data = [];
+			for(i=0;i<raw.length;i++){
+				var trace=idtable[raw[i][1]];
+				if (trace==null){
+					trace={
+					  x: [], 
+					  y: [], 
+					  type: 'scatter',
+					  name: raw[i][1]
+					};
+					idtable[raw[i][1]]=trace;
+					data.push(trace)
+				}
+				trace.x.push(raw[i][0])
+				trace.y.push(raw[i][2])
+			}
+			Plotly.newPlot('myPlotDiv', data);
+			/////////////////////////////////////////
+			var idtable = {};
+			var data = [];
+			for(i=0;i<raw.length;i++){
+				var trace=idtable[raw[i][1]];
+				if (trace==null){
+					trace={
+					  x: [], 
+					  y: [], 
+					  type: 'scatter',
+					  name: raw[i][1]
+					};
+					idtable[raw[i][1]]=trace;
+					data.push(trace)
+				}
+				trace.x.push(raw[i][0])
+				trace.y.push(raw[i][3])
+			}
+			Plotly.newPlot('myPlotDiv2', data);
+			////////////////////////////////////////
+			var idtable = {};
+			var data = [];
+			for(i=0;i<raw.length;i++){
+				var trace=idtable[raw[i][1]];
+				if (trace==null){
+					trace={
+					  x: [], 
+					  y: [], 
+					  type: 'scatter',
+					  name: raw[i][1]
+					};
+					idtable[raw[i][1]]=trace;
+					data.push(trace)
+				}
+				trace.x.push(raw[i][0])
+				trace.y.push(raw[i][4])
+			}
+			Plotly.newPlot('myPlotDiv3', data);
+		}
+	</script>
+	<button onclick="renderButton()">Plot</button><br>
+	<div id="myPlotDiv" style="width: 100%; height: 500px;"><br>
+  </body>
+</html>
